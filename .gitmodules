@@ -1,0 +1,3 @@
+[submodule "amuse"]
+	path = amuse
+	url = https://github.com/darrylyeo/amuse
