@@ -4,3 +4,6 @@
 [submodule "learn"]
 	path = learn
 	url = https://github.com/darrylyeo/learn
+[submodule "live-editor"]
+	path = live-editor
+	url = https://github.com/darrylyeo/live-editor
