@@ -1,3 +1,6 @@
 [submodule "amuse"]
 	path = amuse
 	url = https://github.com/darrylyeo/amuse
+[submodule "learn"]
+	path = learn
+	url = https://github.com/darrylyeo/learn
