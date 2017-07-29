@@ -1,0 +1,548 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script language="javascript" type="text/javascript" src="p5.js"></script>
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.20/p5.js"></script>-->
+  <!-- uncomment lines below to include extra p5 libraries -->
+  <!--<script language="javascript" src="libraries/p5.dom.js"></script>-->
+  <!--<script language="javascript" src="libraries/p5.sound.js"></script>-->
+  <!-- this line removes any default padding and style. you might only need one of these values set. -->
+  <style> body {padding: 0; margin: 0;} </style>
+  <script>
+  	
+/*function setup(){
+  //createCanvas(width, 400, P2D);
+  createCanvas(windowWidth, windowHeight, WEBGL);
+}*/
+
+/*function draw(){
+  background(0);
+
+  var locY = (mouseY / height - 0.5) * (-2);
+  var locX = (mouseX / width - 0.5) * 2;
+
+  ambientLight(50);
+  directionalLight(200, 0, 0, 0.25, 0.25, 0.25);
+  pointLight(0, 0, 200, locX, locY, 0);
+  pointLight(200, 200, 0, -locX, -locY, 0);
+
+for(var x = -1; x <= 1; x += 1/5){
+  for(var y = -1; y <= 1; y += 1/5){
+    for(var z = -1; z <= 1; z += 1/5){
+      if(y === 0 && z === 0) continue;
+      push();
+      translate(x * 1300, y * 1300, z * 1300);
+      rotateZ(frameCount * 0.02);
+      rotateX(frameCount * 0.02);
+      specularMaterial(2500);
+      box(40);
+      pop();
+    }
+  }
+}
+  
+
+  translate(250, 0, 0);
+  ambientMaterial(250);
+  sphere(120, 64);
+}*/
+
+
+/**
+ * Jolly McFreeze's Gingerbread Jubilee
+ * by DY
+ *
+ * Jolly McFreeze the Snowman welcomes you to his freshly-baked gingerbread house.
+ * What surprises will await you inside? (Check back soon to find out.)
+ *
+ * Use the arrow keys to walk around.
+ * Drag the scene or use the WASD keys to adjust the viewing angle.
+ * Use the numeric keys to toggle components on and off (listed below).
+ *
+ * Made with DY's 3D Much Whee library, a helper library for Processing.js's P3D graphics API:
+ * www.khanacademy.org/computer-programming/3d-much-whee/5008266156441600
+*/
+
+var options = {
+    // Laggy? Change these.     // Keyboard shortcuts:
+    numberOfSnowflakes: 50,
+    showSnowflakes: true,       // 1
+    showIcing: true,            // 2
+    
+    snowflakeMaxHorizontalVelocity: 4,
+    snowflakeMaxVerticalVelocity: 15,
+    walkSpeed: 25,
+    viewAngleSpeed: 5,
+    
+    invertDrag: false,
+    //switchArrowsAndWASD: false,
+    
+    debugMode: false
+};
+
+// Keyboard Shortcuts
+var keyToOptions = {
+    "1": "showSnowflakes",
+    "2": "showIcing",
+    "3": "invertDrag",
+    //"4": "switchArrowsAndWASD",
+    "0": "debugMode",
+};
+
+
+
+
+
+
+
+
+// 3D Much Whee!
+var at = function(f){
+    return function(x, y, z){
+        push();
+        translate(x, y, z);
+        f.apply(window, [].splice.call(arguments, 3));
+        pop();
+    };
+},
+
+
+_camera = {
+    center: new p5.Vector(2000, 2000, 200),
+    rotateZ: 46,
+    rotateXY: 101,
+    distance: 5,
+    update: function(dx, dy, s){
+        s = s || 1;
+        if(dx){ this.rotateZ += dx * s; }
+        if(dy){ this.rotateXY -= dy * s; }
+        this.rotateXY = constrain(this.rotateXY, 1e-5, 179.999);
+        
+        var linearDistance = pow(2,this.distance);
+        
+        camera(
+            this.center.x, this.center.y, this.center.z
+        );
+        /*
+            this.center.x + linearDistance * cos(this.rotateZ) * sin(this.rotateXY),
+            this.center.y + linearDistance * sin(this.rotateZ) * sin(this.rotateXY),
+            this.center.z + linearDistance * cos(this.rotateXY),
+            0, 0, -1*/
+        //redraw();
+    }
+},
+
+run = function() {_DRAW();
+    if(keyIsPressed){
+        switch(keyCode){
+            case LEFT:
+            case UP:
+            case RIGHT:
+            case DOWN:
+                var moveBy = new p5.Vector(0, options.walkSpeed);
+                moveBy.rotate(_camera.rotateZ + (keyCode - LEFT) * 90);
+                _camera.center.add(moveBy);
+                _camera.update();
+                break;
+            case ENTER:
+            case RETURN:
+                _camera.center.z += options.walkSpeed;
+                _camera.update();
+                break;
+            case SHIFT:
+                _camera.center.z -= options.walkSpeed;
+                _camera.update();
+                break;
+        }
+        switch(key.toString()){
+            case "a":
+                _camera.update(-options.viewAngleSpeed);
+                break;
+            case "w":
+                _camera.update(0, -options.viewAngleSpeed);
+                break;
+            case "d":
+                _camera.update(options.viewAngleSpeed);
+                break;
+            case "s":
+                _camera.update(0, options.viewAngleSpeed);
+                break;
+            case "\n":
+                _camera.center.z += options.walkSpeed;
+                _camera.update();
+                break;
+        }
+    }
+},
+
+boxAt = at(function(l, w, h, rx, ry, rz) {
+    w = w || l;
+    h = h || l;
+    if(boxMode === CORNER){
+        translate(l/2, w/2, h/2);
+    }
+    rotate(rx || 0, ry, rz);
+    box(l, w, h);
+}),
+boxMode = "corner",
+
+sphereAt = at(window.sphere),
+
+prism = function(h, vertices){
+    if(arguments.length > 2){ vertices = [].splice.call(arguments, 1); }
+    
+    var v = vertices.length - vertices.length % 2;
+    
+    beginShape();
+    for(var i = 0; i < v; i += 2){
+        vertex(vertices[i], vertices[i + 1], -h/2);
+    }
+    endShape(pop);
+    
+    beginShape();
+    for(var i = 0; i < v; i += 2){
+        vertex(vertices[i], vertices[i + 1], h/2);
+    }
+    endShape(pop);
+    
+    beginShape(QUAD_STRIP);
+    for(var i = 0; i < v+2; i += 2){
+        vertex(vertices[i % v], vertices[(i + 1) % v], -h/2);
+        vertex(vertices[i % v], vertices[(i + 1) % v], h/2);
+    }
+    endShape(pop);
+},
+
+cylinderDetail = 12,
+cylinder = function(r, h){
+    var a = 360 / cylinderDetail;
+    var vertices = [];
+    for (var i = 0; i < cylinderDetail; i++) {
+        vertices.push(cos(i*a)*r, sin(i*a)*r);
+    }
+    prism(h, vertices);
+},
+cylinderAt = at(function(){cylinder.apply(this, arguments);})
+
+
+
+
+var house = {
+    width: 1000,
+    depth: 800,
+    height: 600,
+    roofHeight: 400,
+    roofOverhang: 100,
+    draw: function(){
+        // Walls
+        fill(140, 89, 0);
+        boxAt(0, 0, house.height / 2, house.width, house.depth, house.height);
+        
+        // Roof
+        fill(133, 82, 0);
+        boxAt(0, 0, house.height - 1, house.width + house.roofOverhang * 2, house.depth + house.roofOverhang * 2, 1);
+        fill(255, 167, 25);
+        push();
+            translate(0, 0, house.height);
+            rotateX(PI/2);
+            prism(
+                house.depth + house.roofOverhang * 2,
+                -house.width / 2 - house.roofOverhang, 0,
+                house.width / 2 + house.roofOverhang, 0,
+                0, house.roofHeight
+            );
+        pop();
+        
+        for(var a = 1; a <= 4; a++){
+            push();
+                rotate(PI / 2 * a);
+                
+                var isSide = a % 2 === 0;
+                var length = isSide ? house.depth : house.width;
+                var width = isSide ? house.width : house.depth;
+                
+                // Icing
+                if(options.showIcing){
+                    fill(255);
+                    push();
+                    translate(0, 0, house.height);
+                    for(var i = 0; i <= 1; i += (!isSide ? 1/3 : 2)){
+                        push();
+                            translate(0, 0, house.roofHeight * i);
+                            house.icing(
+                                new p5.Vector(-width/2 - house.roofOverhang, (length/2 + house.roofOverhang) * (1 - i), 0),
+                                new p5.Vector(width + house.roofOverhang * 2, undefined)
+                            );
+                        pop();
+                    }
+                    if(isSide){
+                        var roofTip = new p5.Vector(0, length/2 + house.roofOverhang, house.roofHeight);
+                        var halfRoofWidth = width/2 + house.roofOverhang;
+                        house.icing(roofTip, new p5.Vector(-halfRoofWidth, 0, -house.roofHeight), 7, 22);
+                        house.icing(roofTip, new p5.Vector(halfRoofWidth, 0, -house.roofHeight), 7, 22);
+                    }
+                    pop();
+                }
+                
+                translate(width / 2, 0, 0);
+                
+                /*
+                // Roof Snow
+                if(options.showIcing){
+                    fill(255);
+                    var z = 0;
+                    for(var z = 0; z <= house.roofHeight; z += (isSide ? house.roofHeight / 3 : 20)){
+                        var s = z/house.roofHeight;
+                        push();
+                            translate(0, 0, house.height);
+                            for(var x = -1; x <= 1; x += (isSide || z === 0 ? 1 / 20 : 2)){
+                                sphereAt(
+                                    house.roofOverhang - (house.roofOverhang + width / 2) * (isSide ? s : 0),
+                                    x * (length / 2 + house.roofOverhang) * (isSide ? 1 : 1 - s),
+                                    z,
+                                    20 + sin(x * 1600 + z * 5) * 8
+                                );
+                            }
+                        pop();
+                    }
+                }*/
+                
+                // Rainbow Gumdrops?
+                colorMode(HSB);
+                for(var z = 0; z <= house.height; z += 75 / 2){
+                    fill(z % 255, 200, 255);
+                    sphereAt(0, length / 2, z, 20 + sin(z * 6) * 5);
+                }
+                
+                colorMode(RGB);
+                
+                // Front
+                if(a === 1){
+                    // Stairs
+                    fill(140, 89, 0);
+                    boxAt(0, 0, 15, 300, house.depth * 0.8, 20);
+                    boxAt(0, 0, 35, 240, house.depth * 0.8 - 60, 20);
+                    boxAt(0, 0, 55, 180, house.depth * 0.8 - 120, 20);
+                    
+                    // Door
+                    fill(201, 241, 255);
+                    boxAt(0, -house.depth * 0.1 - 5, 175, 1, house.depth * 0.2, 350);
+                    boxAt(0, house.depth * 0.1 + 5, 175, 1, house.depth * 0.2, 350);
+                }
+                
+                // Sides
+                if(isSide){
+                    fill(201, 241, 255);
+                    boxAt(0, 0, house.height / 2 + 100, 1, length * 0.6, 200);
+                }
+            pop();
+        }
+    },
+    icing: function(p1, deltaP, freq, quality, s, amp){
+        freq = freq || 8.5;
+        quality = quality || 40;
+        s = s || 20;
+        amp = amp || 8;
+        var p2 = p5.Vector.add(p1, deltaP);
+        for(var i = 0; i <= 1; i += 1/quality){
+            sphereAt(
+                map(i, 0, 1, p1.x, p2.x),
+                map(i, 0, 1, p1.y, p2.y),
+                map(i, 0, 1, p1.z, p2.z),
+                s - cos(i * 360 * freq) * amp
+            );
+        }
+    }
+};
+
+var snowman = {
+    rotation: 0,
+    targetRotation: 0,
+    blinkProgress: 0,
+    update: function(){
+        if(Math.random() < 0.03){
+            this.targetRotation = Math.random(-1.3, 1.3);
+        }
+        this.rotation += (this.targetRotation - this.rotation) * 0.3;
+        
+        this.blinkProgress = min(this.blinkProgress + 0.3, 1);
+        if(Math.random() < 0.03){
+            this.blinkProgress = 0;
+        }
+    },
+    draw: function(){
+        push();
+            translate(house.width / 2 + 100, -100);
+            
+            // Body
+            fill(255);
+            sphereAt(0, 0, 65, 100);
+            sphereAt(0, 0, 200, 87.5);
+            
+            // Head
+            rotate(snowman.rotation);
+            sphereAt(0, 0, 320, 75);
+            
+            // Eyes
+            fill(0);
+            sphereAt(70, 25, 330, 11 * pow(cos(snowman.blinkProgress * 180), 2));
+            sphereAt(70, -25, 330, 11 * pow(cos(snowman.blinkProgress * 180), 2));
+            
+            // Hat
+            fill(100);
+            noStroke();
+            //strokeWeight(0.1);
+            cylinderAt(0, 0, 420, 40, 120);
+            cylinderAt(0, 0, 390, 70, 20);
+        pop();
+    }
+};
+
+var Snowflake = function(z){
+    this.pos = new p5.Vector(Math.random(-1000, 1000), Math.random(-1000, 1000), z || Math.random(1000));
+    this.vel = new p5.Vector(Math.random(-1, 1) * options.snowflakeMaxHorizontalVelocity, Math.random(-1, 1) * options.snowflakeMaxHorizontalVelocity, Math.random(-options.snowflakeMaxVerticalVelocity, -1));
+    this.rotate = new p5.Vector(Math.random(Math.PI * 2), Math.random(Math.PI * 2), Math.random(Math.PI * 2));
+    this.rotateVel = new p5.Vector(Math.random(Math.PI * 2*0.1), Math.random(Math.PI * 2*0.1), Math.random(Math.PI * 2*0.1));
+};
+Snowflake.prototype.draw = function(_3D) {
+    this.pos.add(vel);
+    this.rotate.add(rotateVel);
+    
+    push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        rotateX(this.rotate.x);
+        rotateY(this.rotate.y);
+        rotateZ(this.rotate.z);
+        for(var i = 0; i <= 3; i++){
+            rotate(Math.PI * 2 / 3);
+            line(-10, 0, 10, 0);
+        }
+    pop();
+};
+var snowflakes = [];
+for(var s = 0; s < options.numberOfSnowflakes; s++){
+    snowflakes.push(new Snowflake());
+}
+snowflakes.draw = function() {
+    stroke(255);
+    //strokeWeight(2);
+    for(var s = 0; s < length; s++){
+        if(this[s].pos.z < 0){
+            this[s] = new Snowflake(1000);
+        }
+        this[s].draw();
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+draw = function() {
+    run();
+    
+    if(options.debugMode){
+        var t = (1000 / (millis() - Program.lastMillis)).toFixed(2) + " fps";
+        fill(255);
+        text(t, 11, 391);
+        fill(0);
+        text(t, 10, 390);
+        Program.lastMillis = millis();
+    }
+};
+
+mouseDragged = function() {
+    _camera.update(mouseX - pmouseX, mouseY - pmouseY, options.invertDrag ? -0.33 : 0.33);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+function setup(){sphereAt = at(window.sphere);
+	
+  createCanvas(windowWidth, windowHeight, WEBGL);
+	cursor(MOVE);
+    // lights();
+    //directionalLight(180, 180, 185, 0.2, 0, 1);
+    //ambientLight(30, 30, 30, 0, 0, -10000);
+    pointLight(255, 255, 255, -100, -100, -450);
+    //pointLight(255, 255, 255, 0, 0, 10000);
+    
+    _camera.update();
+};
+
+function _DRAW(){
+    noStroke();
+    boxMode = CENTER;
+    
+    // Sky
+    background(143, 221, 255);
+    
+    // Ground
+    fill(235, 255, 254);
+    rectMode(CENTER);
+    push();
+    //emissive(25, 25, 60);
+        translate(0, 0, -2);
+        //rect(0, 0, 3500, 3500);
+        translate(0, 0, 1);
+        //rect(0, 0, 2200, 2200);
+    pop();
+    
+    /*
+    for(var x = -5000; x <= 5000; x += 500){
+        for(var y = -5000; y <= 5000; y += 500){
+            var n = noise(x * 3e-4, y * 3e-4, frameCount * 1e-3);
+            fill(255, 255, 255, n * 255);
+            push();
+                translate(x, y, 13300 + n * 100);
+                rotate(n * 70);
+                ellipse(0, 0, 1000, 1000);
+            pop();
+        }
+    }*/
+    
+    // House
+    house.draw();
+    
+    // Snowman
+    snowman.update();
+    snowman.draw();
+    
+    // Snowflakes
+    if(options.showSnowflakes){
+        snowflakes.draw();
+    }
+};
+
+keyPressed = function(){
+    var option = keyToOptions[key.toString()];
+    if(option){ options[option] = !options[option]; }
+};
+
+  </script>
+</head>
+
+<body>
+</body>
+</html>
