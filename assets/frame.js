@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const title = currentScript.dataset.title || document.title
 	document.title += ' | Play | Darryl Yeo'
 
-	const postLink = currentScript.dataset.link || location.href.replace('//play', '//').replace('/$', '')
+	const postLink = currentScript.dataset.link || location.href.replace('//play.', '//').replace('/$', '')
 
 	const style = document.createElement('style')
 	style.textContent = `
