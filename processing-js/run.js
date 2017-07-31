@@ -51,10 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				{
 					const _rotate = processing.rotate
+					const _arc = processing.arc
 					const angle = x => angleMode === 'degrees' ? x * Math.PI/180 : x
 
 					Object.assign(processing, {
 						rotate: x => _rotate(angle(x)),
+						arc: (x, y, w, h, a1, a2) => _arc(x, y, w, h, angle(a1), angle(a2)),
 						sin: x => Math.sin(angle(x)),
 						cos: x => Math.cos(angle(x)),
 						tan: x => Math.tan(angle(x)),
