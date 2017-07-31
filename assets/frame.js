@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	frame.innerHTML = `
 		<h1><strong>${title}</strong> <span>by Darryl Yeo</span></h1>
 		<div>
+			<a class="restart" target="_blank">Restart</a>
 			<a class="toggle-full-screen">Full Screen</a>
 			<a class="view-post" href="${postLink}" target="_blank">View Post</a>
 		</div>
@@ -108,6 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.body.appendChild(frame)
 
 
+	// Restart Button
+	const restartButton = frame.querySelector('.restart')
+	restartButton.addEventListener('click', () => location.reload())
+
+
+	// Full Screen
 	const d = document
 	const e = document.documentElement
 	const toggleButton = frame.querySelector('.toggle-full-screen')
