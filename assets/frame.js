@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			line-height: 1.2;
 
 			pointer-events: none;
+			z-index: 100000000;
 
 			color: rgba(0, 0, 0, 0.75);
 			/*text-shadow: rgba(255, 255, 255, 0.5) 1px 1px 1px;
