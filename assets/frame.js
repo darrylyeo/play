@@ -53,15 +53,20 @@ document.addEventListener('DOMContentLoaded', () => {
 			font-size: 1.2em;
 			font-weight: normal;
 			margin: 0;
+			margin-right: auto;
 		}
 		dy-play-frame h1 span {
 			display: inline-block;
 			font-size: 0.8em;
 		}
 
+		dy-play-frame div {
+			margin: -0.2em;
+		}
 		dy-play-frame a {
 			border-radius: 4px;
-			margin: -0.2em;
+			cursor: pointer;
+			margin: 0.2em 0.1em;
 			padding: 0.3em 0.5em;
 
 			background-color: rgba(255, 255, 255, 0.25);
@@ -72,9 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			pointer-events: initial;
 		}
+		dy-play-frame a.active,
 		dy-play-frame a:hover {
 			background-color: #67b7e1;
 			color: #fff;
+		}
+		dy-play-frame a:hover {
 			opacity: 0.9;
 		}
 	`
@@ -84,9 +92,41 @@ document.addEventListener('DOMContentLoaded', () => {
 	Object.assign(frame.style, )
 	frame.innerHTML = `
 		<h1><strong>${title}</strong> <span>by Darryl Yeo</span></h1>
-		<a href="${postLink}" target="_blank">View Post</a>
+		<div>
+			<a class="toggle-full-screen">Full Screen</a>
+			<a class="view-post" href="${postLink}" target="_blank">View Post</a>
+		</div>
 	`
+	/*
+	${
+		window === top
+			? `<a href="${postLink}" target="_blank">View Post</a>`
+			: `<a class="toggle-full-screen">Full Screen</a>`
+	}
+	*/
 	document.body.appendChild(frame)
-})
+
+
+	const d = document
+	const e = document.documentElement
+	const toggleButton = frame.querySelector('.toggle-full-screen')
+
+	const requestFullscreen = (e.requestFullscreen || e.webkitRequestFullscreen || e.mozRequestFullScreen || e.msRequestFullscreen).bind(e)
+	const exitFullscreen = (d.exitFullscreen || d.webkitExitFullscreen || d.mozCancelFullScreen || d.msExitFullscreen).bind(d)
+	const inFullScreen = () => !!(/*document.fullscreenEnabled || document.mozFullscreenEnabled ||*/ d.fullscreenElement || d.mozFullScreenElement || d.webkitFullscreenElement || d.msFullscreenElement)
+
+	const onFullScreenChange = function(toggle){
+		if(toggle){
+			if(inFullScreen()) exitFullscreen()
+			else requestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+		}
+		toggleButton.classList[inFullScreen() ? 'add' : 'remove']('active')
+	}
+
+	toggleButton.addEventListener('click', () => onFullScreenChange(true))
+
+	for(const eventName of ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'msfullscreenchange'])
+		d.addEventListener(eventName, () => onFullScreenChange())
+	})
 
 }
