@@ -24,6 +24,8 @@ var debug = console.log
 var keyIsPressed = false
 var mouseIsPressed = false
 var angleMode = 'degrees'
+var getSound = () => {}
+var playSound = () => {}
 
 document.addEventListener('DOMContentLoaded', () => {
 	document.body.style.margin = 0
