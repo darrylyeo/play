@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Full Screen
 	const d = document
 	const e = document.documentElement
-	const toggleButton = frame.querySelector('.toggle-full-screen')
+	const toggleFullScreenButton = frame.querySelector('.toggle-full-screen')
 
 	const requestFullscreen = (e.requestFullscreen || e.webkitRequestFullscreen || e.mozRequestFullScreen || e.msRequestFullscreen).bind(e)
 	const exitFullscreen = (d.exitFullscreen || d.webkitExitFullscreen || d.mozCancelFullScreen || d.msExitFullscreen).bind(d)
@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			if(inFullScreen()) exitFullscreen()
 			else requestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
 		}
-		toggleButton.classList[inFullScreen() ? 'add' : 'remove']('active')
+		toggleFullScreenButton.classList[inFullScreen() ? 'add' : 'remove']('active')
 	}
 
-	toggleButton.addEventListener('click', () => onFullScreenChange(true))
+	toggleFullScreenButton.addEventListener('click', () => onFullScreenChange(true))
 
 	for(const eventName of ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'msfullscreenchange'])
 		d.addEventListener(eventName, () => onFullScreenChange())
