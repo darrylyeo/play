@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<!--
+	Alpha-Beta-CSS-a!
+	by DY
+	
+	An animatable font-face solely constructed in CSS.
+	
+	TODO:
+	  * Improve G, V
+	  * Clean up S
+	  * Curve Z?
+	
+	Oh Noes freaks out when you have an escaped semicolon in a CSS selector:
+	.abc-font .\; {
+		
+	}
+	
+	So I've commented those sections out and used JS regex to un-comment them. Would be nice to correct this (I know, it's highly unconventional and probably isn't the most important thing to fix at this point).
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Alpha-Beta-CSS-a!</title>
+		<style>
+			.abc-font {
+				border-color: rgb(25, 119, 196);
+			}
+			.abc-font i, .abc-font i:before, .abc-font i:after {
+				transition: 0.5s;
+				border-style: solid;
+				border-width: 0px;
+				box-sizing: border-box;
+				display: inline-block;
+				position: relative;
+				text-align: left;
+				content: '';
+			}
+			.abc-font i {
+				border-color: inherit;
+				height: 40px;
+			}
+			.abc-font i:before, .abc-font i:after {
+				border-color: transparent;
+				box-sizing: border-box;
+				width: 0;
+				height: 0;
+				position: absolute;
+			}
+			
+			.abc-font i + i {
+				margin-left: 3px;
+			}
+			
+			.abc-font i[class=" "] {
+				width: 15px;
+			}
+			.abc-font .\.,
+			.abc-font .\,,
+			/*.abc-font .\;,*/
+			.abc-font .\!,
+			.abc-font .I {
+				width: 6px;
+			}
+			.abc-font .\- {
+				width: 15px;
+			}
+			.abc-font .A,
+			.abc-font .B,
+			.abc-font .D,
+			.abc-font .H,
+			.abc-font .K,
+			.abc-font .N,
+			.abc-font .P,
+			.abc-font .R,
+			.abc-font .S,
+			.abc-font .T,
+			.abc-font .U,
+			.abc-font .V,
+			.abc-font .Y {
+				width: 30px;
+			}
+			.abc-font .C,
+			.abc-font .E,
+			.abc-font .F,
+			.abc-font .J,
+			.abc-font .L {
+				width: 25px;
+			}
+			.abc-font .G,
+			.abc-font .Z {
+				width: 28px;
+			}
+			.abc-font .M,
+			.abc-font .W {
+				width: 35px;
+			}
+			.abc-font .O,
+			.abc-font .Q,
+			.abc-font .X {
+				width: 31px;
+			}
+			
+			
+			
+			
+			.abc-font .\.:after,
+			.abc-font .\,:after,
+			/*.abc-font .\;:before,
+			.abc-font .\;:after,*/
+			.abc-font .\!:after {
+				border-color: inherit;
+				border-right-width: 6px;
+				border-bottom-width: 6px;
+				bottom: 0;
+			}
+			.abc-font .\,:after,
+			/*.abc-font .\;:after*/ {
+				border-bottom-right-radius: 100%;
+				bottom: -4px;
+				height: 10px;
+			}
+			/*.abc-font .\;:before {
+				bottom: 30%;
+			}*/
+			.abc-font .\!:before {
+				border-color: inherit;
+				border-top-width: 30px;
+				width: 6px;
+				height: 75%;
+			}
+			
+			.abc-font .\-:before,
+			.abc-font .A:before,
+			.abc-font .E:before,
+			.abc-font .F:before,
+			.abc-font .H:before {
+				border-color: inherit;
+				border-top-width: 6px;
+				width: 101%;
+				top: 50%;
+				left: -0.1px;
+				-webkit-transform: translateY(-50%);
+				-moz-transform: translateY(-50%);
+				transform: translateY(-50%);
+			}
+			
+			.abc-font .A {
+				border-width: 6px 6px 0 6px;
+				border-radius: 50% 50% 0 0;
+			}
+			.abc-font .A:before {
+				-webkit-transform: none;
+				-moz-transform: none;
+				transform: none;
+			}
+			
+			.abc-font .B,
+			.abc-font .D,
+			.abc-font .H,
+			.abc-font .I,
+			.abc-font .K,
+			.abc-font .N,
+			.abc-font .P,
+			.abc-font .R,
+			.abc-font .U {
+				border-left-width: 6px;
+			}
+			.abc-font .B:before,
+			.abc-font .B:after,
+			.abc-font .K:before,
+			.abc-font .K:after,
+			.abc-font .P:before,
+			.abc-font .R:before,
+			.abc-font .R:after,
+			.abc-font .S:before,
+			.abc-font .S:after {
+				border-color: inherit;
+				border-radius: 0 100% 100% 0;
+				border-width: 6px 6px 6px 0;
+				width: 100%;
+				height: calc(50% + 3px);
+				left: 0;
+			}
+			.abc-font .B:before {
+				width: 90%;
+			}
+			.abc-font .B:after,
+			.abc-font .K:after,
+			.abc-font .R:after,
+			.abc-font .S:after {
+				bottom: 0;
+				width: 100%;
+			}
+			
+			.abc-font .C,
+			.abc-font .E,
+			.abc-font .F,
+			.abc-font .G,
+			.abc-font .L {
+				border-width: 6px 0 6px 6px;
+				border-radius: 15px 0 0 15px;
+			}
+			
+			.abc-font .D {
+				border-width: 6px;
+				border-radius: 0 50% 50% 0;
+			}
+			
+			.abc-font .E:before,
+			.abc-font .F:before {
+				width: 85%;
+			}
+			.abc-font .F {
+				border-bottom-width: 0;
+				border-bottom-left-radius: 0;
+			}
+			
+			.abc-font .G {
+				border-bottom-right-radius: 7.5px;
+			}
+			.abc-font .G:before {
+				border-color: inherit;
+				border-right-width: 6px;
+				border-top-width: 6px;
+				border-top-right-radius: 8px;
+				width: 70%;
+				height: calc(50% + 3px);
+				right: 0;
+				bottom: -0.1px;
+			}
+			
+			.abc-font .H {
+				border-right-width: 6px;
+			}
+			
+			.abc-font .J {
+				border-radius: 0 0 12.5px 0;
+				border-width: 0 6px 6px 0;
+				right: 0;
+			}
+			
+			.abc-font .K:before {
+				border-top-width: 0;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 25px;
+			}
+			.abc-font .K:after {
+				border-top-right-radius: 15px;
+			}
+			.abc-font .K:after,
+			.abc-font .R:after {
+				border-bottom-width: 0;
+				border-bottom-right-radius: 0;
+			}
+			
+			.abc-font .L {
+				border-radius: 0 0 0 15px;
+				border-top-width: 0;
+			}
+			
+			.abc-font .M:before,
+			.abc-font .M:after,
+			.abc-font .N {
+				border-color: inherit;
+				border-radius: 12.5px 12.5px 0 0;
+				border-width: 6px 6px 0 6px;
+			}
+			
+			.abc-font .M:before,
+			.abc-font .M:after {
+				width: calc(50% + 3px);
+				height: 100%;
+			}
+			.abc-font .M:before {
+				border-top-right-radius: 10px;
+			}
+			.abc-font .M:after {
+				border-top-left-radius: 10px;
+				right: 0;
+			}
+			
+			.abc-font .O,
+			.abc-font .Q {
+				border-radius: 14px;
+				border-width: 6px;
+			}
+			
+			.abc-font .P:before,
+			.abc-font .R:before {
+				height: calc(50% + 6px);
+			}
+			
+			.abc-font .Q:after {
+				border-color: inherit;
+				border-left-width: 6px;
+				height: 15px;
+				right: -10%;
+				bottom: -20%;
+				-webkit-transform: rotate(-35deg);
+				-moz-transform: rotate(-35deg);
+				transform: rotate(-35deg);
+			}
+			
+			.abc-font .R:after {
+				border-top-right-radius: 12.5px;
+				height: calc(50%);
+			}
+			
+			.abc-font .S:before {
+				border-radius: 100% 0 0 100%;
+				border-left-width: 6px;
+				border-right-width: 0;
+			}
+			.abc-font .S:after {
+				right: 0px;
+			}
+			.abc-font .S:before,
+			.abc-font .S:after {
+				width: 90%;
+			}
+			
+			.abc-font .T,
+			.abc-font .Z {
+				border-top-width: 6px;
+			}
+			.abc-font .T:before {
+				border-color: inherit;
+				border-left-width: 6px;
+				height: 100%;
+				left: 50%;
+				top: 0%;
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			
+			.abc-font .U {
+				border-width: 0 6px 6px 6px;
+				border-radius: 0 0 12.5px 12.5px;
+			}
+			
+			.abc-font .V {
+				border-width: 0 6px 6px 6px;
+				border-radius: 0 0 35% 85%;
+			}
+			
+			.abc-font .W:before,
+			.abc-font .W:after,
+			.abc-font .Y:before {
+				border-color: inherit;
+				border-radius: 0 0 12.5px 12.5px;
+				border-width: 0 6px 6px 6px;
+			}
+			.abc-font .W:before,
+			.abc-font .W:after {
+				width: calc(50% + 3px);
+				height: 100%;
+			}
+			.abc-font .W:before {
+				border-bottom-right-radius: 10px;
+			}
+			.abc-font .W:after {
+				border-bottom-left-radius: 10px;
+				right: 0;
+			}
+			
+			.abc-font .X {
+				overflow: hidden;
+			}
+			.abc-font .X:before,
+			.abc-font .X:after {
+				border-color: inherit;
+				border-left-width: 6px;
+				height: 100%;
+				left: 50%;
+				-webkit-transform: translateX(-50%) rotate(32deg) scaleY(1.5);
+				-moz-transform: translateX(-50%) rotate(32deg) scaleY(1.5);
+				transform: translateX(-50%) rotate(32deg) scaleY(1.5);
+			}
+			.abc-font .X:after {
+				-webkit-transform: translateX(-50%) rotate(-32deg) scaleY(1.5);
+				-moz-transform: translateX(-50%) rotate(-32deg) scaleY(1.5);
+				transform: translateX(-50%) rotate(-32deg) scaleY(1.5);
+			}
+			
+			.abc-font .Y {
+				overflow: hidden;
+			}
+			.abc-font .Y:before {
+				border-radius: 0 0 50% 50%;
+				width: 100%;
+				height: 115%;
+				top: -50%;
+			}
+			.abc-font .Y:after {
+				border-color: inherit;
+				border-left-width: 6px;
+				left: 50%;
+				height: 40%;
+				bottom: 0;
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			
+			.abc-font .Z {
+				border-bottom-width: 6px;
+			}
+			.abc-font .Z:before {
+				border-color: inherit;
+				border-left-width: 6px;
+				height: 100%;
+				left: 50%;
+				-webkit-transform: translateX(-50%) rotate(34deg) scaleY(1.5);
+				-moz-transform: translateX(-50%) rotate(34deg) scaleY(1.5);
+				transform: translateX(-50%) rotate(34deg) scaleY(1.5);
+			}
+			
+			
+			html {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				height: 100vh;
+				padding: 30px;
+				background-color: #e9f5ff;
+			}
+			body {
+				text-align: center;
+			}
+			#big-letter-wrapper {
+				background-color: rgb(25, 119, 196);
+				display: inline-block;
+				margin: 100px 0;
+				padding: 8px 10px 4px;
+				-webkit-transform: scale(4);
+				-moz-transform: scale(4);
+				transform: scale(4);
+			}
+			#big-letter {
+				border-color: #fff;
+				-webkit-transform-origin: top;
+				-moz-transform-origin: top;
+				transform-origin: top;
+			}
+		</style>
+	</head>
+	<body>
+		<p class="abc-font" id="big-letter-wrapper">
+			<i class=" " id="big-letter"></i>
+		</p>
+		<p class="abc-font" id="sentence"></p>
+		<script>
+			var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-.,;!";
+			var currentLetter = 0;
+			var bigLetter = document.getElementById("big-letter");
+			setInterval(function(){
+				bigLetter.className = letters[currentLetter++ % letters.length];
+			}, 1000)
+			
+			var sentences = [
+				letters,
+				"Alpha-Beta-CSS-A!",
+				"The quick brown fox jumps over a lazy dog.",
+				"Pack my box with five dozen liquor jugs.",
+				"Bright vixens jump; dozy fowl quack.",
+				"Waltz, nymph, for quick jigs vex Bud!",
+				"Sphinx of black quartz, judge my vow!",
+				"Two driven jocks help fax my big quiz.",
+				"Five quacking zephyrs jolt my wax bed.",
+				"Painful zombies quickly watch a jinxed graveyard.",
+				"Grumpy wizards make toxic brew for the evil queen and jack."
+			];
+			var currentSentence = 0;
+			var sentenceElement = document.getElementById("sentence");
+			var updateSentence = function(){
+				var sentence = sentences[currentSentence++ % sentences.length];
+				for(var l = 0; l < Math.max(sentence.length, sentenceElement.children.length); l++){
+					if(sentenceElement.children[l]){
+						letter = sentenceElement.children[l];
+					}else{
+						letter = document.createElement("i");
+						sentenceElement.appendChild(letter);
+					}
+					letter.className = l < sentence.length ? sentence[l].toUpperCase() : "";
+				}
+			}
+			updateSentence();
+			setInterval(updateSentence, 5000);
+			
+			// Uncomments
+			var style = document.getElementsByTagName("style")[0];
+			style.innerHTML = style.innerHTML.replace(/\/\*|\*\//g, "");
+		</script>
+		
+		<script src="../assets/frame.js"></script>
+	</body>
+</html>
