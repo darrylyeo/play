@@ -7,6 +7,7 @@
 		background: linear-gradient(#e2edff, #e4ffe8);
 		color: rgba(0, 0, 0, 0.8);
 
+		display: flex;
 		display: grid;
 		grid-auto-flow: column;
 		grid-template-columns: 1fr max-content;
@@ -14,6 +15,7 @@
 		font-family: Asap, Tulia;
 	}
 	iframe {
+		float: right;
 		height: 100vh;
 	}
 
@@ -23,6 +25,9 @@
 	}
 
 	div {
+		display: flex;
+		flex-wrap: wrap;
+
 		flex: 1;
 		display: grid;
 		grid-auto-flow: row;
@@ -36,6 +41,8 @@
 		margin: 0;
 		background: top/cover;
 		position: relative;
+
+		flex: 1 40%;
 	}
 	figure:before {
 		content: '';
