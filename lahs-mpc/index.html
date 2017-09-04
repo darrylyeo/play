@@ -1,0 +1,162 @@
+<title>Music Production and Composition Club at LAHS</title>
+<style>
+	body {
+		/* background: linear-gradient(#4285f4, #8cff9f);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		color: #fff; */
+		background: linear-gradient(#e2edff, #e4ffe8);
+		color: rgba(0, 0, 0, 0.8);
+
+		display: grid;
+		grid-auto-flow: column;
+		grid-template-columns: 1fr max-content;
+		margin: 0;
+		font-family: Asap, Tulia;
+	}
+	iframe {
+		height: 100vh;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+	}
+
+	div {
+		flex: 1;
+		display: grid;
+		grid-auto-flow: row;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 33%;
+	}
+	figure {
+		/* flex: 1 300px;
+		margin: 0;
+		width: 0; */
+		margin: 0;
+		background: top/cover;
+		position: relative;
+	}
+	figure:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(165deg, transparent 60%, rgba(0, 0, 0, 0.5));
+	}
+	figure img {
+		background-color: rgba(255, 255, 255, 0.8);
+		border-radius: 15px;
+		position: absolute;
+		right: 0.5rem;
+		bottom: 0.5rem;
+		width: 70px;
+	}
+	figure figcaption {
+		background-color: rgba(0, 0, 0, 0.5); 
+		border-radius: 6px;
+		color: #fff;
+		padding: 10px 10px;
+		font-size: 1rem;
+		position: absolute;
+		right: calc(0.5rem + 70px + 7px);
+		bottom: 0.5rem;
+		text-align: right;
+		text-shadow: 0 1px 5px #000;
+		font-family: Tulia;
+	}
+
+	section {
+		padding: 2rem 1.5rem;
+		/* padding-bottom: 0; */
+	}
+	/* p {
+		text-align: center;
+	} */
+
+	h1 {
+		font-family: Tulia;
+		font-size: 2.5rem;
+		text-decoration-skip: ink;
+		color: rgba(255, 255, 255, 0.9);
+		color: rgba(100, 100, 100, 0.2);
+		margin-bottom: 0;
+		/* text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
+	}
+	span {
+		color: #fff;
+		text-shadow: 0 0 5.5em;
+	}
+	h2, h3 {
+		font-family: Tulia;
+		font-weight: normal;
+		margin-top: 0.5em;
+	}
+
+	section > * {
+		margin: 0;
+	}
+	section > * + * {
+		margin-top: 0.75em;
+	}
+
+	p {
+		line-height: 1.4;
+	}
+
+	@font-face {
+		font-family: Asap;
+		src: url('Asap-Regular.woff') format('woff');
+	}
+	@font-face {
+		font-family: Asap;
+		src: url('Asap-Bold.woff') format('woff');
+		font-weight: bold;
+	}
+
+	@font-face {
+		font-family: Tulia;
+		src: url('Tulia_regular.ttf') format('truetype');
+	}
+	@font-face {
+		font-family: Tulia;
+		src: url('Tulia_bold.ttf') format('truetype');
+		font-weight: bold;
+	}
+</style>
+
+<main>
+	<section>
+		<h1><span style="color: #4285f4">Music Production</span> and <span style="color: #33caa2">Composition</span> Club</h1>
+		<h3>Darryl Yeo and Adam Weingram • <b>Every other Tuesday in the Instrumental Music Room</b></h3>
+		<p>Create your own music, and share and collaborate with others! We'll teach you about the software and hardware used in music-making. Musicians and composers of all experience levels are welcome.</p>
+		<p>Here is some of the software we'll be using:</p>
+	</section>
+
+	<div>
+		<figure style="background-image: url(https://a.fsdn.com/con/app/proj/mscore/screenshots/16220689964_396b89b23f_c.jpg/1)">
+			<img src="https://lh3.ggpht.com/GC02wsKDlNVyYGl5LaEoR1qTJlmnvqPPQ4AnSzQPupMuwRd9O0sPSNNbOLMCCQi_aw=w300">
+			<figcaption>MuseScore</figcaption>
+		</figure>
+		<figure style="background-image: url(http://images.studica.com/images/product/Avid/79114/sibelius_keyboard_enlarge.jpg)">
+			<img src="http://icons.iconarchive.com/icons/blackvariant/button-ui-requests-6/1024/Sibelius-icon.png">
+			<figcaption>Sibelius</figcaption>
+		</figure>
+		<figure style="background-image: url(http://a1.mzstatic.com/us/r30/Purple127/v4/65/a0/d7/65a0d73c-b39c-0540-1e16-58b0f90d4fe9/screen800x500.jpeg)">
+			<img src="http://is1.mzstatic.com/image/thumb/Purple122/v4/00/95/32/00953244-b97a-66db-55e8-e647f8360e38/source/175x175bb.jpg">
+			<figcaption>Garageband</figcaption>
+		</figure>
+		<figure style="background-image: url(http://a1.mzstatic.com/us/r30/Purple111/v4/6e/0d/7d/6e0d7d92-2d8e-4e8e-03fa-bb79aec32dcf/screen800x500.jpeg)">
+			<img src="http://is2.mzstatic.com/image/thumb/Purple118/v4/b2/07/92/b2079207-ebf3-b416-9846-fd16270029a4/source/175x175bb.png">
+			<figcaption>Logic Pro</figcaption>
+		</figure>
+		<figure style="background-image: url(http://cdn.makeuseof.com/wp-content/uploads/2017/05/auxy_notes.jpg)">
+			<img src="http://is1.mzstatic.com/image/thumb/Purple128/v4/f2/7f/cf/f27fcf1f-d5ee-f3db-b555-d6f0c4998ccb/source/175x175bb.jpg">
+			<figcaption>Auxy</figcaption>
+		</figure>
+	</div>
+</main>
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfxJ1kS8v3vXMDlmAJv50OIaosVG5kQj6so574OkyXRkQXELg/viewform?embedded=true" width="500" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
