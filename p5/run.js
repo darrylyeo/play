@@ -22,40 +22,37 @@ if(currentScript.dataset.include){
 	}
 }
 
-const include = url => {
-	return new Promise((resolve, reject) => {
-		const script = document.createElement('script')
-		script.src = url
-		script.async = false
-		script.onload = resolve
-		script.onerror = reject
-		document.body.appendChild(script)
-	})
-}
+const include = url => new Promise((resolve, reject) => {
+	const script = document.createElement('script')
+	script.src = url
+	script.async = false
+	script.onload = resolve
+	script.onerror = reject
+	document.body.appendChild(script)
+})
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 	document.body.style.margin = 0
 
-	Promise.all(includes.map(include)).then(() => {
-		p5.setup(() => {
-			/*if(svgMode){
-				createCanvas(400, 400, SVG);
-			}*/
+	await Promise.all(includes.map(include))
 
-			/*include(
-				currentScript.dataset.program ||
-				location.href.split('/').filter(part => part && !part.includes('.')).pop() + '.p5.js'
-			)*/
+	p5.setup(() => {
+		/*if(svgMode){
+			createCanvas(400, 400, SVG);
+		}*/
 
-			if(currentScript.dataset.program){
-				include(currentScript.dataset.program)
-			}else{
-				const parts = location.href.split('/')
-				if(parts[parts.length - 1].includes('.')) parts.pop()
-				parts.push(parts[parts.length - 1] + '.p5.js')
-				include(parts.join('/'))
-			}
-		})
+		/*include(
+			currentScript.dataset.program ||
+			location.href.split('/').filter(part => part && !part.includes('.')).pop() + '.p5.js'
+		)*/
+
+		if(currentScript.dataset.program){
+			include(currentScript.dataset.program)
+		}else{
+			const href = location.href.replace('/index.html', '').replace(/\/$/, '')
+			const scriptName = href.split('/').pop()
+			include(`${href}/${scriptName}.p5.js`)
+		}
 	})
 })
 
