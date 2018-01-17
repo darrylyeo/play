@@ -7,6 +7,3 @@
 [submodule "live-editor"]
 	path = live-editor
 	url = https://github.com/darrylyeo/live-editor
-[submodule "resume"]
-	path = resume
-	url = https://github.com/darrylyeo/resume
