@@ -41,11 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 			createCanvas(400, 400, SVG);
 		}*/
 
-		/*include(
-			currentScript.dataset.program ||
-			location.href.split('/').filter(part => part && !part.includes('.')).pop() + '.p5.js'
-		)*/
-
 		if(currentScript.dataset.program){
 			include(currentScript.dataset.program)
 		}else{
